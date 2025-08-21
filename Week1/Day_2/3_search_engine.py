@@ -62,7 +62,7 @@ def embed_text_chunks(chunks, embedding_model_name="all-MiniLM-L6-v2"):
 def build_faiss_index():
     files = glob.glob('/Users/Antonio.Tablero/Library/CloudStorage/OneDrive-TheWaltDisneyCompany/Documents/GitHub/GenAIEngineering-Cohort2/Week1/Day_2/csv_files/*.csv')
     print(files)
-    df = pd.concat([pd.read_csv(f, dtype=str, low_memory=False) for f in files[:1]], ignore_index=True)
+    df = pd.concat([pd.read_csv(f, dtype=object, low_memory=False) for f in files[:1]], ignore_index=True)
     print(len(df))
     embedding_model_name = "all-MiniLM-L6-v2"
     embeddings = embed_text_chunks(list(df['Unnamed: 0']), embedding_model_name)
