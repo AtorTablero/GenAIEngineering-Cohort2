@@ -60,12 +60,12 @@ def embed_text_chunks(chunks, embedding_model_name="all-MiniLM-L6-v2"):
 
 # Function to build a FAISS index
 def build_faiss_index():
-    files = glob.glob(os.path.join('csv_files', "*.csv"))
+    files = glob.glob('/Users/Antonio.Tablero/Library/CloudStorage/OneDrive-TheWaltDisneyCompany/Documents/GitHub/GenAIEngineering-Cohort2/Week1/Day_2/csv_files/*.csv')
     print(files)
-    df = pd.concat((pd.read_csv(f) for f in files), ignore_index=True)
+    df = pd.concat([pd.read_csv(f, dtype=str, low_memory=False) for f in files[:1]], ignore_index=True)
     print(len(df))
     embedding_model_name = "all-MiniLM-L6-v2"
-    embeddings = embed_text_chunks(list(df['chunk']), embedding_model_name)
+    embeddings = embed_text_chunks(list(df['Unnamed: 0']), embedding_model_name)
     print('embeddings completed')
     dimension = embeddings.shape[1]
     index = faiss.IndexFlatL2(dimension)
@@ -87,8 +87,9 @@ def build_faiss_index():
 def search_chunks(search_string):
     query_embedding = SentenceTransformer('all-MiniLM-L6-v2').encode([search_string], convert_to_numpy=True)
     distances, indices = faiss_index.search(query_embedding, k=5)
-    files = glob.glob(os.path.join('csv_files', "*.csv"))
-    df = pd.concat((pd.read_csv(f) for f in files), ignore_index=True)
+    #files = glob.glob(os.path.join('csv_files', "*.csv"))
+    files = glob.glob('/Users/Antonio.Tablero/Library/CloudStorage/OneDrive-TheWaltDisneyCompany/Documents/GitHub/GenAIEngineering-Cohort2/Week1/Day_2/csv_files/*.csv')
+    df = pd.concat([pd.read_csv(f, dtype=str, low_memory=False) for f in files[:1]], ignore_index=True)
     matches_df=df.iloc[indices[0]]
     return matches_df.to_json()
 
@@ -104,4 +105,4 @@ def main():
 if __name__ == "__main__":
     print('starting services')
     main()
-    uvicorn.run(app, host="0.0.0.0", port=9321)
+    uvicorn.run(app, host="localhost", port=9321)
