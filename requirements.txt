@@ -4,6 +4,7 @@ anyio==4.9.0
 appnope==0.1.4
 asttokens==3.0.0
 attrs==25.3.0
+bitsandbytes==0.42.0
 blinker==1.9.0
 cachetools==6.1.0
 certifi==2025.6.15
@@ -31,7 +32,7 @@ greenlet==3.2.3
 h11==0.16.0
 hf-xet==1.1.5
 holidays==0.75
-huggingface-hub==0.33.1
+huggingface-hub==0.34.4
 hyperopt==0.2.7
 idna==3.10
 importlib_resources==6.5.2
@@ -117,7 +118,7 @@ torch==2.2.2
 tornado==6.5.1
 tqdm==4.67.1
 traitlets==5.14.3
-transformers==4.53.0
+transformers==4.55.4
 typing-inspection==0.4.1
 typing_extensions==4.14.0
 tzdata==2025.2
