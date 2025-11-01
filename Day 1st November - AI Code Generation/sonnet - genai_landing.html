@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generative AI Mastery Course</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #0a0a1a;
+            color: #fff;
+        }
+
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: radial-gradient(ellipse at center, rgba(10,10,26,0.3) 0%, rgba(10,10,26,0.8) 100%);
+        }
+
+        .hero {
+            text-align: center;
+            max-width: 900px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                filter: hue-rotate(0deg);
+            }
+            50% {
+                filter: hue-rotate(20deg);
+            }
+        }
+
+        .subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: #a0a0c0;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .cta-container {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .btn {
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out backwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #fff;
+        }
+
+        .feature-card p {
+            color: #a0a0c0;
+            line-height: 1.6;
+        }
+
+        .stats {
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #a0a0c0;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .cta-container {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <div class="hero">
+            <h1>Master Generative AI</h1>
+            <p class="subtitle">Transform your career with cutting-edge AI skills. Learn to build, deploy, and innovate with GPT, Stable Diffusion, and beyond.</p>
+            
+            <div class="cta-container">
+                <button class="btn btn-primary">Start Learning Now</button>
+                <button class="btn btn-secondary">View Curriculum</button>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Students</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Hours Content</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">4.9</div>
+                    <div class="stat-label">Rating</div>
+                </div>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Neural Networks</h3>
+                    <p>Deep dive into transformer architectures, attention mechanisms, and the foundations of modern AI models.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Creative AI</h3>
+                    <p>Master text-to-image, image-to-image, and multimodal generation with Stable Diffusion and DALL-E.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real Projects</h3>
+                    <p>Build production-ready applications with GPT-4, LangChain, and deploy your own AI-powered solutions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Node {
+            constructor(theta, phi, radius) {
+                this.theta = theta;
+                this.phi = phi;
+                this.radius = radius;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.screenX = 0;
+                this.screenY = 0;
+                this.brightness = Math.random() * 0.5 + 0.5;
+                this.pulseSpeed = Math.random() * 0.02 + 0.01;
+                this.pulseOffset = Math.random() * Math.PI * 2;
+                this.updatePosition(0);
+            }
+
+            updatePosition(rotation) {
+                const r = this.radius;
+                const adjustedTheta = this.theta + rotation;
+                
+                this.x = r * Math.sin(this.phi) * Math.cos(adjustedTheta);
+                this.y = r * Math.sin(this.phi) * Math.sin(adjustedTheta);
+                this.z = r * Math.cos(this.phi);
+
+                const scale = 300 / (300 + this.z);
+                this.screenX = this.x * scale + canvas.width / 2;
+                this.screenY = this.y * scale + canvas.height / 2;
+                this.scale = scale;
+            }
+
+            draw(time) {
+                const pulse = Math.sin(time * this.pulseSpeed + this.pulseOffset) * 0.3 + 0.7;
+                const distanceFromCenter = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+                const maxDistance = this.radius;
+                const centerBrightness = 1 - (distanceFromCenter / maxDistance) * 0.6;
+                
+                const size = (2 + pulse * 1) * this.scale;
+                const alpha = this.scale * this.brightness * pulse * centerBrightness;
+                
+                const gradient = ctx.createRadialGradient(
+                    this.screenX, this.screenY, 0,
+                    this.screenX, this.screenY, size * 3
+                );
+                gradient.addColorStop(0, `rgba(147, 112, 219, ${alpha})`);
+                gradient.addColorStop(0.5, `rgba(102, 126, 234, ${alpha * 0.6})`);
+                gradient.addColorStop(1, `rgba(102, 126, 234, 0)`);
+
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.screenX, this.screenY, size * 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = `rgba(200, 180, 255, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.screenX, this.screenY, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const nodes = [];
+        const numNodes = 100;
+        const sphereRadius = 150;
+
+        for (let i = 0; i < numNodes; i++) {
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            nodes.push(new Node(theta, phi, sphereRadius));
+        }
+
+        let rotation = 0;
+        let time = 0;
+
+        function drawBrainCPU() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const size = 60;
+
+            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, size * 2);
+            gradient.addColorStop(0, 'rgba(147, 112, 219, 0.9)');
+            gradient.addColorStop(0.5, 'rgba(102, 126, 234, 0.6)');
+            gradient.addColorStop(1, 'rgba(102, 126, 234, 0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, size * 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = 'rgba(200, 180, 255, 0.8)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const x1 = centerX + Math.cos(angle) * 20;
+                const y1 = centerY + Math.sin(angle) * 20;
+                const x2 = centerX + Math.cos(angle) * 40;
+                const y2 = centerY + Math.sin(angle) * 40;
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+            }
+            ctx.stroke();
+
+            const pulse = Math.sin(time * 0.03) * 10 + 30;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, pulse, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = 'rgba(147, 112, 219, 0.8)';
+            ctx.fillRect(centerX - 15, centerY - 15, 30, 30);
+            
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.lineWidth = 1;
+            for (let i = -10; i <= 10; i += 5) {
+                ctx.beginPath();
+                ctx.moveTo(centerX + i, centerY - 15);
+                ctx.lineTo(centerX + i, centerY + 15);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(centerX - 15, centerY + i);
+                ctx.lineTo(centerX + 15, centerY + i);
+                ctx.stroke();
+            }
+        }
+
+        function drawConnections() {
+            ctx.strokeStyle = 'rgba(102, 126, 234, 0.15)';
+            ctx.lineWidth = 1;
+
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const dz = nodes[i].z - nodes[j].z;
+                    const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                    if (distance < 80) {
+                        const alpha = (1 - distance / 80) * 0.3;
+                        ctx.strokeStyle = `rgba(102, 126, 234, ${alpha})`;
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].screenX, nodes[i].screenY);
+                        ctx.lineTo(nodes[j].screenX, nodes[j].screenY);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(10, 10, 26, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            rotation += 0.003;
+            time++;
+
+            nodes.forEach(node => node.updatePosition(rotation));
+            
+            nodes.sort((a, b) => a.z - b.z);
+
+            drawConnections();
+            nodes.forEach(node => node.draw(time));
+            drawBrainCPU();
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        let mouseX = 0;
+        let mouseY = 0;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 0.1;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 0.1;
+        });
+    </script>
+</body>
+</html>
