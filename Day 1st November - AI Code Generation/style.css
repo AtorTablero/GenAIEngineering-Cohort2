@@ -1,0 +1,101 @@
+/* Claude.ai - Prompt "can you design an interactive land web for Generative AI course. Make it yum."*/
+    /* Copilot Refine with JS+CSS - Prompt "can you design an interactive land web for Generative AI course. Make it yum."*/
+        /* Reset & base */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html,body { height: 100%; }
+        body {
+            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            background: radial-gradient(1200px 500px at 10% 10%, rgba(107,181,255,0.06), transparent),
+                        linear-gradient(135deg, #0a0e27 0%, #171133 40%, #2b1256 100%);
+            color: #fff; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+        }
+
+        /* Header / Nav */
+        nav {
+            position: sticky; top: 0; z-index: 120;
+            backdrop-filter: blur(6px); background: linear-gradient(180deg, rgba(10,14,39,0.5), rgba(10,14,39,0.3));
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            padding: 1rem 5%; display:flex; align-items:center; justify-content:space-between; gap:1rem;
+        }
+        .logo { font-weight:800; font-size:1.25rem; background: linear-gradient(45deg,#ff6b9d,#c06bff,#6bb5ff); background-clip:text; -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .nav-links { display:flex; gap:1rem; list-style:none; align-items:center; }
+        .nav-links a { color:rgba(255,255,255,0.85); text-decoration:none; padding:0.5rem 0.6rem; border-radius:8px; font-weight:600; }
+        .nav-links a:hover, .nav-links a:focus { background: rgba(255,255,255,0.03); transform:translateY(-2px); }
+        .primary-cta { background:linear-gradient(90deg,#ff6b9d,#c06bff); color:#fff; padding:0.6rem 1rem; border-radius:999px; font-weight:700; border:none; cursor:pointer; box-shadow:0 8px 30px rgba(192,107,255,0.12); }
+
+        /* Hero */
+        .hero { display:grid; grid-template-columns: 1fr min(640px, 42%); gap:2rem; align-items:center; padding:4.5rem 5% 3rem; position:relative; }
+        .hero-left { max-width:720px; }
+        .hero h1 { font-size: clamp(2rem, 4.5vw, 4rem); line-height:1.02; font-weight:900; background:linear-gradient(90deg,#fff,#ffb2d6 40%,#c2a6ff); background-clip:text; -webkit-background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
+        .hero p { margin-top:1rem; color:rgba(255,255,255,0.78); font-size:1.05rem; }
+
+        .hero-cta-row { margin-top:1.6rem; display:flex; gap:1rem; align-items:center; }
+        .ghost-btn { background:transparent; border:1px solid rgba(255,255,255,0.08); padding:0.6rem 0.9rem; border-radius:12px; color:rgba(255,255,255,0.9); cursor:pointer; }
+
+        /* Right card */
+        .hero-card { background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border-radius:18px; padding:1.4rem; border:1px solid rgba(255,255,255,0.06); box-shadow: 0 20px 60px rgba(16,10,40,0.6); }
+        .hero-card .meta { display:flex; gap:0.8rem; align-items:center; }
+        .badge { background: linear-gradient(90deg,#6bb5ff,#c06bff); padding:0.4rem 0.6rem; border-radius:999px; font-weight:700; color:#081123; }
+
+        /* Features & Grid */
+        .features { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:1rem; margin:2rem 0; }
+        .feature { background: rgba(255,255,255,0.02); padding:1rem; border-radius:12px; border:1px solid rgba(255,255,255,0.03); }
+
+        /* Stats */
+        .stats { display:flex; gap:2rem; margin-top:1.4rem; flex-wrap:wrap; }
+        .stat-number { font-weight:900; font-size:1.6rem; background:linear-gradient(90deg,#ff6b9d,#c06bff); background-clip:text; -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+        /* Curriculum accordion */
+        .curriculum { margin:3rem 5%; max-width:1200px; }
+        .accordion { background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; margin-bottom:0.8rem; border:1px solid rgba(255,255,255,0.03); }
+        .accordion button { width:100%; text-align:left; padding:1rem 1.2rem; background:transparent; border:none; color:inherit; font-weight:700; display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
+        .panel { padding:0 1.2rem 1rem 1.2rem; color:rgba(255,255,255,0.8); display:none; }
+
+        /* Testimonials */
+        .testimonials { margin:3rem 5%; max-width:1100px; display:flex; gap:1rem; align-items:center; }
+        .testimonial { background:rgba(255,255,255,0.02); padding:1rem; border-radius:12px; min-width:240px; border:1px solid rgba(255,255,255,0.03); }
+
+        /* Modal (enroll) */
+        .modal-backdrop { position:fixed; inset:0; background:rgba(3,6,23,0.6); display:flex; align-items:center; justify-content:center; z-index:200; opacity:0; pointer-events:none; transition:opacity 220ms ease; }
+        .modal-backdrop.open { opacity:1; pointer-events:auto; }
+        .modal { background:linear-gradient(180deg,#0f1530 0%, #121428 100%); padding:1.4rem; border-radius:14px; width:min(540px,92%); border:1px solid rgba(255,255,255,0.04); box-shadow:0 30px 80px rgba(8,6,30,0.8); }
+        .modal h2 { font-size:1.3rem; margin-bottom:0.4rem; }
+        .form-row { display:flex; gap:0.6rem; margin-bottom:0.6rem; }
+        input[type=text], input[type=email] { width:100%; padding:0.72rem; border-radius:10px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); color:inherit; }
+        .submit { background:linear-gradient(90deg,#ff6b9d,#c06bff); color:white; padding:0.7rem 1rem; border-radius:999px; border:none; cursor:pointer; font-weight:700; }
+
+        /* Stars (simple) */
+        .stars { position:fixed; inset:0; pointer-events:none; z-index:0; }
+        .star { position:absolute; width:2px; height:2px; background:#fff; border-radius:50%; opacity:0.6; filter:blur(0.5px); }
+
+        /* Animated background layer */
+        .animated-bg { position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:0.18; background: linear-gradient(120deg, rgba(255,107,157,0.08), rgba(192,107,255,0.06) 30%, rgba(107,181,255,0.04)); background-size:200% 200%; animation: gradientShift 12s ease-in-out infinite; }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating blurred orbs */
+        .floating-orb { position:fixed; border-radius:50%; filter:blur(60px); opacity:0.35; pointer-events:none; z-index:0; transform:translate3d(0,0,0); will-change:transform; }
+        .orb1 { width:360px; height:360px; background:#ff6b9d; top:6%; left:4%; animation: orbDrift 8s ease-in-out infinite alternate; }
+        .orb2 { width:420px; height:420px; background:#c06bff; bottom:6%; right:6%; animation: orbDrift 10s ease-in-out infinite alternate-reverse; }
+        .orb3 { width:260px; height:260px; background:#6bb5ff; top:48%; right:10%; animation: orbDrift 7s ease-in-out infinite alternate; }
+
+        @keyframes orbDrift { 0% { transform: translate3d(0,0,0) scale(1); } 100% { transform: translate3d(30px,20px,0) scale(1.03); } }
+
+        /* Star twinkle */
+        @keyframes twinkle { 0%,100% { opacity:0.2; transform:scale(1); } 50% { opacity:1; transform:scale(1.4); } }
+
+        /* Respect reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            .animated-bg, .floating-orb, .star, .hero h1 { animation: none !important; transition: none !important; }
+        }
+
+        /* Responsive */
+        @media (max-width:900px) { .hero { grid-template-columns:1fr; } .hero-card { order:-1; } .nav-links { display:none; } }
+    /* Canvas neural background */
+    .neural-canvas { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; display:block; }
+    .neural-canvas { z-index:-3; }
+    .gl-canvas { z-index:-2; }
