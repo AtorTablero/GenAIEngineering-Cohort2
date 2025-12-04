@@ -19,6 +19,7 @@ def search_pdf_chunks(search_string):
     print(API_URL, payload)
     response = requests.post(f"{API_URL}?search_string={search_string}")
     if response.status_code == 200:
+        st.subheader(str(response.json()))
         return pd.read_json(response.json())
     else:
         st.error(f"Error: API returned status code {response.status_code}")
